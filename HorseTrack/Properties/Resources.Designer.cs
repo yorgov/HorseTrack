@@ -59,5 +59,25 @@ namespace HorseTrack.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon _1462723114_timer {
+            get {
+                object obj = ResourceManager.GetObject("_1462723114_timer", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap _2016_05_08_361552009 {
+            get {
+                object obj = ResourceManager.GetObject("_2016_05_08_361552009", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
     }
 }

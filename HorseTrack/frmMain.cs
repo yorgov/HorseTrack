@@ -18,6 +18,7 @@ namespace HorseTrack
         public frmMain()
         {
             InitializeComponent();
+            Icon = Properties.Resources._1462723114_timer;
 
             if (File.Exists(_jsonFile))
             {
@@ -131,6 +132,14 @@ namespace HorseTrack
                 File.WriteAllText(_jsonFile, JsonConvert.SerializeObject(_appInfo, Formatting.Indented));
             }
             catch (Exception) { e.Cancel = false; }
+        }
+
+        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            using(var about = new About())
+            {
+                about.ShowDialog(this);
+            }
         }
     }
 }

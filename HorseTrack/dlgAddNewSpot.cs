@@ -14,6 +14,7 @@ namespace HorseTrack
         public dlgAddNewSpot()
         {
             InitializeComponent();
+            Icon = Properties.Resources._1462723114_timer;
         }
 
         private void btnOk_Click(object sender, EventArgs e)
