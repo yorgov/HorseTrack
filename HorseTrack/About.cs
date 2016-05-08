@@ -16,9 +16,8 @@ namespace HorseTrack
             this.Text = String.Format("About {0}", AssemblyTitle);
             this.labelProductName.Text = AssemblyProduct;
             this.labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
-            this.lblLicense.Text = "License : Attribution-NonCommercial 3.0 Unported";
-            this.lblLicense.Links.Add(10, lblLicense.Text.Length, @"http://creativecommons.org/licenses/by-nc/3.0/");
-            //this.textBoxDescription.Text = AssemblyDescription;            
+            this.lblLicense.Text = "License : MIT license";
+            this.lblLicense.Links.Add(10, lblLicense.Text.Length, @"https://opensource.org/licenses/MIT");            
         }
 
         #region Assembly Attribute Accessors
