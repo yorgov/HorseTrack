@@ -20,7 +20,7 @@ namespace HorseTrack
 
         private static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
         {
-            using(var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HorseTrack.Newtonsoft.Json.dll"))
+            using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("HorseTrack.Newtonsoft.Json.dll"))
             {
                 var data = new Byte[stream.Length];
                 stream.Read(data, 0, data.Length);

@@ -1,11 +1,16 @@
-﻿using System;
+﻿using HorseTrack.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace HorseTrack.UserControls
 {
     public partial class HorseSpot : UserControl
     {
+        private List<ChannellTimer> _channels = new List<ChannellTimer>();
+
+
         public string Caption
         {
             get { return lblCaption.Text; }
@@ -17,57 +22,69 @@ namespace HorseTrack.UserControls
         public event ClosClicked OnCloseClicked;
 
         public event EventHandler OnStartClicked;
-        public HorseSpot() : this(DateTime.MinValue, null)
+        public HorseSpot() : this(null)
         {
 
         }
 
-        public HorseSpot(DateTime refTime, int[] timeValues = null)
+        public HorseSpot(HorseSpotInformation info = null)
         {
             InitializeComponent();
-            if (timeValues == null) return;
-            SetTimes(timeValues, refTime);
+            AddComponentsForRef();
+            if (info == null) return;
+            SetTimes(info);
         }
 
-        public int[] GetTimes()
+        private void AddComponentsForRef()
         {
-            var times = new int[12];
-            foreach (ChannellTimer item in channelContainer.Controls)
+            _channels.Add(channellTimer1);
+            _channels.Add(channellTimer2);
+            _channels.Add(channellTimer3);
+            _channels.Add(channellTimer4);
+            _channels.Add(channellTimer5);
+            _channels.Add(channellTimer6);
+            _channels.Add(channellTimer7);
+            _channels.Add(channellTimer8);
+            _channels.Add(channellTimer9);
+            _channels.Add(channellTimer10);
+            _channels.Add(channellTimer11);
+            _channels.Add(channellTimer12);
+        }
+
+        public HorseSpotInformation GetSpotInfo()
+        {
+            return new HorseSpotInformation
             {
-                times[item.Index] = item.Ticks;
-            }
-            return times;
+                Name = Caption,
+                RefTime = DateTime.Now,
+                Channels = _channels.Select(c => new ChannelInformation { ChannelName = c.ChannelName, Times = c.HorseTimes }).ToArray()
+            };
         }
 
-        private void SetTimes(int[] timeValues,DateTime refTime)
+        private void SetTimes(HorseSpotInformation Info)
         {
-            foreach (ChannellTimer item in channelContainer.Controls)
+            Caption = Info.Name;
+            for (int i = 0; i < _channels.Count; i++)
             {
-                if (timeValues[item.Index] != 0)
-                {
-                    var startTime = refTime.Subtract(TimeSpan.FromSeconds(timeValues[item.Index]));
-                    var timePassed = TimeSpan.FromTicks(DateTime.Now.Ticks - startTime.Ticks);
-                    if (timePassed.TotalSeconds >= 7200)
-                    {
-                        item.Ticks = 7200;
-                    }
-                    else item.Ticks = (int)timePassed.TotalSeconds; 
-                }
-                else item.Ticks = timeValues[item.Index];
+                _channels[i] = new ChannellTimer(Info.Channels.First(c => c.ChannelName == _channels[i].ChannelName), Info.RefTime);
+                _channels[i].OnExpandClicked += channelTimer_OnExpandClicked;
+                _channels[i].OnTimerStarted += ChannelTimerStarted;
             }
+
+            //populating the right flowPanel
+            tableLayoutPanel2.Controls[1].Controls.Clear();
+            tableLayoutPanel2.Controls[1].Controls.AddRange(_channels.Take(6).ToArray());
+            //populating the left flowPanel
+            tableLayoutPanel2.Controls[0].Controls.Clear();
+            tableLayoutPanel2.Controls[0].Controls.AddRange(_channels.Skip(6).Take(6).ToArray());
+
+            //collaps all channel timers except the first
+            UpdateChannelCollapse(_channels[0]);            
         }
 
-        private void lblClose_MouseEnter(object sender, EventArgs e)
-        {
-            Cursor = Cursors.Hand;
-        }
 
-        private void lblClose_MouseLeave(object sender, EventArgs e)
-        {
-            Cursor = Cursors.Default;
-        }
 
-        private void lblClose_Click(object sender, EventArgs e)
+        private void btnRemove_Click(object sender, EventArgs e)
         {
             if (OnCloseClicked == null) return;
             var arg = new CloseEventArgs(Caption);
@@ -76,10 +93,35 @@ namespace HorseTrack.UserControls
 
         private void ChannelTimerStarted(object sender, EventArgs e)
         {
+            if (sender.GetType() != typeof(HorseTimer))
+            {
+                UpdateChannelCollapse((ChannellTimer)sender);
+            }
             if (OnStartClicked == null) return;
             OnStartClicked(sender, e);
         }
 
+        private void UpdateChannelCollapse(ChannellTimer sender)
+        {
+            _channels.ForEach(c =>
+            {
+                if (!c.Equals(sender))
+                {
+                    c.CollapseControl();
+                }
+            });
+        }
+
+        private void channelTimer_OnExpandClicked(object sender, EventArgs e)
+        {
+            _channels.ForEach(c =>
+            {
+                if (!c.Equals(sender))
+                {
+                    c.CollapseControl();
+                }
+            });
+        }
     }
 
     public class CloseEventArgs : EventArgs

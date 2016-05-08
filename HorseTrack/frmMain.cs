@@ -48,7 +48,7 @@ namespace HorseTrack
 
         private void addNewSpot(HorseSpotInformation item)
         {
-            var newSpot = new HorseSpot(item.RefTime, item.Times);
+            var newSpot = new HorseSpot(item);
             newSpot.Caption = item.Name;
             newSpot.BorderStyle = BorderStyle.FixedSingle;
             newSpot.OnCloseClicked += horseSpot_OnCloseClicked;
@@ -76,8 +76,7 @@ namespace HorseTrack
             newSpot.OnStartClicked += horseSpot_OnStartedClicked;
             _appInfo.SpotsInformation.Add(new HorseSpotInformation
             {
-                Name = spotName,
-                Times = new int[12]
+                Name = spotName                
             });
             flowLayoutPanel1.Controls.Add(newSpot);
         }
@@ -127,12 +126,7 @@ namespace HorseTrack
                 _appInfo.HorseCount = textBox1.Text;
                 foreach (HorseSpot spot in flowLayoutPanel1.Controls)
                 {
-                    _appInfo.SpotsInformation.Add(new HorseSpotInformation
-                    {
-                        Name = spot.Caption,
-                        Times = spot.GetTimes(),
-                        RefTime = DateTime.Now
-                    });
+                    _appInfo.SpotsInformation.Add(spot.GetSpotInfo());
                 }
                 File.WriteAllText(_jsonFile, JsonConvert.SerializeObject(_appInfo, Formatting.Indented));
             }

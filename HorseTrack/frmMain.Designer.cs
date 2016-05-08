@@ -52,7 +52,7 @@ namespace HorseTrack
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 30);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(647, 545);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(709, 430);
             this.flowLayoutPanel1.TabIndex = 4;
             // 
             // menuStrip1
@@ -62,7 +62,7 @@ namespace HorseTrack
             this.exitToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(647, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(709, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -94,7 +94,7 @@ namespace HorseTrack
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 30F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(647, 575);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(709, 460);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // tableLayoutPanel2
@@ -109,7 +109,7 @@ namespace HorseTrack
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(647, 30);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(709, 30);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // tableLayoutPanel3
@@ -125,7 +125,7 @@ namespace HorseTrack
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(176, 30);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(193, 30);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // label1
@@ -145,7 +145,7 @@ namespace HorseTrack
             this.textBox1.Location = new System.Drawing.Point(85, 5);
             this.textBox1.Margin = new System.Windows.Forms.Padding(5);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(86, 20);
+            this.textBox1.Size = new System.Drawing.Size(103, 20);
             this.textBox1.TabIndex = 1;
             this.textBox1.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox1_KeyPress);
             // 
@@ -153,9 +153,10 @@ namespace HorseTrack
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(647, 599);
+            this.ClientSize = new System.Drawing.Size(709, 484);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.menuStrip1);
+            this.MinimumSize = new System.Drawing.Size(725, 523);
             this.Name = "frmMain";
             this.Text = "Horse Respawn Time Track";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
@@ -172,10 +173,6 @@ namespace HorseTrack
 
         #endregion
 
-        private HorseSpot horseSpot1;
-        private HorseSpot horseSpot2;
-        private HorseSpot horseSpot3;
-        private HorseSpot horseSpot4;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem addNewSpotToolStripMenuItem;
