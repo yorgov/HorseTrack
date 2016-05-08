@@ -1,5 +1,5 @@
 # HorseTrack
-The latest executable can be found in the binaries folder
+**The latest executable can be found in the binaries folder**
 
 This application allows you to track the respawn time of wild horses for different spots in the game Black Desert Online 
 
