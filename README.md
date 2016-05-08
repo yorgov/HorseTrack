@@ -5,4 +5,5 @@ This was created because as a self respecting horse trainer I needed to be able 
 
 This tool helps me keep track of the time I have left on a certain spot on a certain channel
 
-I hope it helps you as well.
+I hope it helps you as well.  
+For information on how to use it, please consult the Wiki
