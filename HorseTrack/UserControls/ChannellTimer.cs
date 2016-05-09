@@ -41,6 +41,8 @@ namespace HorseTrack.UserControls
 
         public event EventHandler OnExpandClicked;
 
+        public event EventHandler OnTimerTick;
+
         public string ChannelName
         {
             get { return lblName.Text; }
@@ -52,9 +54,16 @@ namespace HorseTrack.UserControls
             get { return _horseTimers.Count; }
         }
 
-        public int[] HorseTimes
+        public long[] HorseTimes
         {
-            get { return _horseTimers.Select(s => s.Ticks).ToArray(); }
+            get
+            {                
+                if(_horseTimers.Count > 0)
+                {
+                    return _horseTimers.Select(s => s.Ticks).ToArray();
+                }
+                return new long[] { 0 };
+            }            
         }
 
         public int Index { get; set; }
@@ -64,7 +73,7 @@ namespace HorseTrack.UserControls
             AddTimer(DateTime.MinValue, -1, -1);
         }
 
-        private void AddTimer(DateTime RefTime, int index = -1, int Ticks = -1)
+        private void AddTimer(DateTime RefTime, int index = -1, long Ticks = -1)
         {
             var horseTimer = new HorseTimer();
             _horseTimers.Add(horseTimer);
@@ -77,11 +86,7 @@ namespace HorseTrack.UserControls
             {
                 var startTime = RefTime.Subtract(TimeSpan.FromSeconds(Ticks));
                 var timePassed = TimeSpan.FromTicks(DateTime.Now.Ticks - startTime.Ticks);
-                if (timePassed.TotalSeconds >= 7200)
-                {
-                    horseTimer.Ticks = 7200;
-                }
-                else horseTimer.Ticks = (int)timePassed.TotalSeconds;
+                horseTimer.Ticks = (long)timePassed.TotalSeconds;
             }
             ExpandControl();
         }
@@ -127,7 +132,13 @@ namespace HorseTrack.UserControls
             }
             if (_horseTimers.Count >= 1)
             {
+                horseTimersContainer.Visible = true;
                 _horseTimers[0].Visible = true;
+            }
+            else
+            {
+                horseTimersContainer.Visible = false;
+                SetLabelText(0);
             }
         }
 
@@ -141,6 +152,8 @@ namespace HorseTrack.UserControls
         {
             if (_horseTimers.Count <= 0) return;
             SetLabelText(_horseTimers.Max(c => c.Ticks));
+            if (OnTimerTick == null) return;
+            OnTimerTick(this, e);
         }
 
         private void lblName_Click(object sender, EventArgs e)
@@ -179,9 +192,10 @@ namespace HorseTrack.UserControls
         private void UpdateControl(DateTime RefTime)
         {
             if (_channelInformation == null) return;
-            lblName.Text = _channelInformation.ChannelName;
+            lblName.Text = _channelInformation.ChannelName;            
             for (int i = 0; i < _channelInformation.Times.Length; i++)
             {
+                if (_channelInformation.Times[i] == 0) continue;
                 AddTimer(RefTime, i, _channelInformation.Times[i]);
             }
         }

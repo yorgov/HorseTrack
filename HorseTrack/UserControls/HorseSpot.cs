@@ -1,6 +1,7 @@
 ﻿using HorseTrack.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -9,7 +10,7 @@ namespace HorseTrack.UserControls
     public partial class HorseSpot : UserControl
     {
         private List<ChannellTimer> _channels = new List<ChannellTimer>();
-
+        private const string MASK = @"hh\:mm\:ss";
 
         public string Caption
         {
@@ -69,6 +70,7 @@ namespace HorseTrack.UserControls
                 _channels[i] = new ChannellTimer(Info.Channels.First(c => c.ChannelName == _channels[i].ChannelName), Info.RefTime);
                 _channels[i].OnExpandClicked += channelTimer_OnExpandClicked;
                 _channels[i].OnTimerStarted += ChannelTimerStarted;
+                _channels[i].OnTimerTick += channelTimer_OnTimerTick;
             }
 
             //populating the right flowPanel
@@ -79,7 +81,7 @@ namespace HorseTrack.UserControls
             tableLayoutPanel2.Controls[0].Controls.AddRange(_channels.Skip(6).Take(6).ToArray());
 
             //collaps all channel timers except the first
-            UpdateChannelCollapse(_channels[0]);            
+            UpdateChannelCollapse(_channels[0]);
         }
 
 
@@ -122,6 +124,32 @@ namespace HorseTrack.UserControls
                 }
             });
         }
+
+        private void channelTimer_OnTimerTick(object sender, EventArgs e)
+        {
+            SetLabelText(_channels.Max(c => c.HorseTimes.Max()));
+        }
+
+        private void SetLabelText(double ticks)
+        {
+            lblNext.Text = (TimeSpan.FromSeconds(ticks) - TimeSpan.FromSeconds(7200)).ToString();
+            if (ticks < 6600)
+            {
+                lblNext.ForeColor = SystemColors.ControlText;
+                lblNext.BackColor = SystemColors.Control;
+            }
+            else if (ticks >= 6600 && ticks <= 6900)
+            {
+                lblNext.ForeColor = Color.White;
+                lblNext.BackColor = Color.Orange;
+            }
+            else if (ticks > 6900)
+            {
+                lblNext.ForeColor = Color.White;
+                lblNext.BackColor = Color.Red;
+            }
+        }
+
     }
 
     public class CloseEventArgs : EventArgs

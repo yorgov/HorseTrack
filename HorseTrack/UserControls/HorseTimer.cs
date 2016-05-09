@@ -17,15 +17,15 @@ namespace HorseTrack.UserControls
 
         public event EventHandler OnTimerTick;
 
-        public int Ticks
+        public long Ticks
         {
-            get { return (int)_ticks; }
+            get { return (long)_ticks; }
             set
             {
                 _ticks = value;
                 SetLabelText();
-                timer1.Enabled = _ticks > 0 && _ticks < 7200;
-                if (_ticks == 0 || _ticks >= 7200) return;
+                timer1.Enabled = _ticks > 0;
+                if (_ticks == 0) return;
                 timer1.Start();
             }
         }
@@ -37,7 +37,7 @@ namespace HorseTrack.UserControls
             {
                 _index = value;
                 lblIndex.Text = _index.ToString();
-                btnRemove.Enabled = !(_index == 1);
+                //btnRemove.Enabled = !(_index == 1);
             }
         }
 
@@ -72,12 +72,7 @@ namespace HorseTrack.UserControls
         private void timer1_Tick(object sender, EventArgs e)
         {
             _ticks++;
-            SetLabelText();
-            if (_ticks == 7200)
-            {
-                timer1.Stop();
-                return;
-            }
+            SetLabelText();           
             timer1.Start();
             if (OnTimerTick == null) return;
             OnTimerTick(this, e);

@@ -19,6 +19,7 @@ namespace HorseTrack
         {
             InitializeComponent();
             Icon = Properties.Resources._1462723114_timer;
+            horseCount.Maximum = decimal.MaxValue;
 
             if (File.Exists(_jsonFile))
             {
@@ -26,7 +27,7 @@ namespace HorseTrack
                 _appInfo =
                  JsonConvert.DeserializeObject<ApplicationInformation>(content);
                 _appInfo.FromFile = true;
-                textBox1.Text = _appInfo.HorseCount;
+                horseCount.Text = _appInfo.HorseCount;
             }
             else
             {
@@ -103,13 +104,13 @@ namespace HorseTrack
 
         private void IncrementTextBox()
         {
-            if (string.IsNullOrEmpty(textBox1.Text))
+            if (string.IsNullOrEmpty(horseCount.Text))
             {
-                textBox1.Text = "1";
+                horseCount.Text = "1";
                 return;
             }
-            var currenCount = Convert.ToInt64(textBox1.Text);
-            textBox1.Text = (currenCount + 1).ToString();
+            var currenCount = Convert.ToInt64(horseCount.Text);
+            horseCount.Text = (currenCount + 1).ToString();
         }
 
         private void textBox1_KeyPress(object sender, KeyPressEventArgs e)
@@ -124,7 +125,7 @@ namespace HorseTrack
             try
             {
                 _appInfo = new ApplicationInformation();
-                _appInfo.HorseCount = textBox1.Text;
+                _appInfo.HorseCount = horseCount.Text;
                 foreach (HorseSpot spot in flowLayoutPanel1.Controls)
                 {
                     _appInfo.SpotsInformation.Add(spot.GetSpotInfo());
